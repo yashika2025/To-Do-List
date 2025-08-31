@@ -11,7 +11,8 @@
     <style>
         body {
             font-family: 'Quicksand', sans-serif;
-            background: linear-gradient(135deg, #ffe6f0, #fff0f5);
+            background: url('https://images.unsplash.com/photo-1612831455548-d87b8bca9c6c?auto=format&fit=crop&w=1470&q=80') no-repeat center center fixed;
+            background-size: cover;
             min-height: 100vh;
             display: flex;
             justify-content: center;
@@ -20,21 +21,22 @@
         .container {
             max-width: 450px;
             width: 100%;
-            background-color: #fff0f5;
+            background-color: rgba(255, 240, 245, 0.9); /* translucent pink overlay */
             padding: 30px 25px;
             border-radius: 20px;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
         }
         h2 {
             text-align: center;
             color: #ff69b4;
-            margin-bottom: 15px;
+            margin-bottom: 5px;
         }
-        p {
+        p.quote {
             text-align: center;
             font-size: 0.9rem;
             color: #ff1493;
-            margin-bottom: 25px;
+            font-style: italic;
+            margin-bottom: 20px;
         }
         .input-group input {
             border-radius: 20px 0 0 20px;
@@ -76,16 +78,12 @@
         .delete-btn:hover {
             background-color: #ff69b4;
         }
-        .task-icon {
-            width: 25px;
-            margin-right: 10px;
-        }
     </style>
 </head>
 <body>
     <div class="container">
         <h2>🌸 My To-Do App 🌸</h2>
-        <p>A cute app I built for my convenience 💖 — evolving according to my needs!</p>
+        <p class="quote" id="quote"></p>
         
         <div class="input-group mb-3">
             <input type="text" id="taskInput" class="form-control" placeholder="Add a new task ✨">
@@ -98,55 +96,13 @@
         const taskInput = document.getElementById('taskInput');
         const addBtn = document.getElementById('addBtn');
         const taskList = document.getElementById('taskList');
+        const quoteElement = document.getElementById('quote');
 
-        let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
-        renderTasks();
+        // Motivational Quotes
+        const quotes = [
+            "You don’t have to be perfect to be amazing.",
+            "Small steps every day lead to big results.",
+            "Dream it. Plan it. Do it.",
+            "Progress, not perfection.",
+            "Every accomplishment starts with the
 
-        addBtn.addEventListener('click', () => {
-            const taskText = taskInput.value.trim();
-            if(taskText !== '') {
-                tasks.push({ text: taskText, completed: false });
-                saveTasks();
-                renderTasks();
-                taskInput.value = '';
-            }
-        });
-
-        function renderTasks() {
-            taskList.innerHTML = '';
-            tasks.forEach((task, index) => {
-                const li = document.createElement('li');
-                li.className = 'list-group-item';
-                
-                const span = document.createElement('span');
-                span.innerHTML = `🌸 ${task.text}`;
-                if(task.completed) span.classList.add('task-completed');
-
-                span.addEventListener('click', () => {
-                    tasks[index].completed = !tasks[index].completed;
-                    saveTasks();
-                    renderTasks();
-                });
-
-                const deleteBtn = document.createElement('button');
-                deleteBtn.className = 'delete-btn';
-                deleteBtn.textContent = '×';
-                deleteBtn.addEventListener('click', () => {
-                    tasks.splice(index, 1);
-                    saveTasks();
-                    renderTasks();
-                });
-
-                li.appendChild(span);
-                li.appendChild(deleteBtn);
-                taskList.appendChild(li);
-            });
-        }
-
-        function saveTasks() {
-            localStorage.setItem('tasks', JSON.stringify(tasks));
-        }
-    </script>
-</body>
-</html>
-# To-Do-List
